@@ -1,0 +1,37 @@
+{
+  "name": "agency-completion-sdk",
+  "version": "0.1.0",
+  "description": "Client SDK for AI agents to queue tasks requiring human completion (CAPTCHAs, signups, verifications)",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test dist/**/*.test.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "ai-agent",
+    "captcha",
+    "human-in-the-loop",
+    "automation",
+    "agency-completion",
+    "raccoon-labs"
+  ],
+  "author": "Raccoon Labs <hello@raccoonlabs.ai>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kennyklee/agency-completion-sdk"
+  },
+  "homepage": "https://raccoonlabs.ai",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
