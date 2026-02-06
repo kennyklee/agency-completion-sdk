@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --border: #2a2a2a;
+      --text: #e5e5e5;
+      --muted: #888;
+      --accent: #f97316;
+      --green: #22c55e;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      width: 320px;
+      min-height: 400px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    
+    header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .logo span { font-size: 20px; }
+    
+    .settings-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 18px;
+    }
+    
+    .login-section {
+      padding: 24px 16px;
+      text-align: center;
+    }
+    
+    .login-section h2 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    
+    .login-section p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+    
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    
+    button {
+      width: 100%;
+      padding: 10px 16px;
+      background: var(--accent);
+      border: none;
+      border-radius: 6px;
+      color: #000;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    button:hover {
+      opacity: 0.9;
+    }
+    
+    button.secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    
+    .main-section {
+      display: none;
+    }
+    
+    .stats {
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .stat {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    
+    .task-list {
+      padding: 12px;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    
+    .task-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+    
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    
+    .task-type {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .task-payout {
+      color: var(--green);
+      font-weight: 600;
+    }
+    
+    .task-url {
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 8px;
+    }
+    
+    .claim-btn {
+      width: 100%;
+      padding: 8px;
+      font-size: 13px;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+    }
+    
+    .empty-state .icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+    
+    footer {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    
+    .earnings {
+      color: var(--green);
+      font-weight: 600;
+    }
+    
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      margin-right: 6px;
+    }
+    
+    .status-dot.offline {
+      background: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <span>🔓</span>
+      Agency Completion
+    </div>
+    <button class="settings-btn" id="settingsBtn">⚙️</button>
+  </header>
+  
+  <!-- Login Section -->
+  <div class="login-section" id="loginSection">
+    <h2>Welcome, Operator</h2>
+    <p>Enter your operator key to start completing tasks and earning money.</p>
+    <input type="text" id="apiKeyInput" placeholder="Enter your operator key">
+    <input type="text" id="serverInput" placeholder="Server URL (default: localhost:3456)">
+    <button id="loginBtn">Connect</button>
+  </div>
+  
+  <!-- Main Section (shown after login) -->
+  <div class="main-section" id="mainSection">
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value" id="availableCount">0</div>
+        <div class="stat-label">Available</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="completedCount">0</div>
+        <div class="stat-label">Completed</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value earnings" id="todayEarnings">$0.00</div>
+        <div class="stat-label">Today</div>
+      </div>
+    </div>
+    
+    <div class="task-list" id="taskList">
+      <div class="empty-state">
+        <div class="icon">☕</div>
+        <p>No tasks available right now.<br>Check back soon!</p>
+      </div>
+    </div>
+    
+    <footer>
+      <span><span class="status-dot" id="statusDot"></span>Connected</span>
+      <button class="secondary" id="logoutBtn" style="width: auto; padding: 6px 12px;">Logout</button>
+    </footer>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
