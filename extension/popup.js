@@ -74,7 +74,7 @@ function showMainSection() {
 // Load available tasks
 async function loadTasks() {
   try {
-    const response = await fetch(`${serverUrl}/operator/tasks`, {
+    const response = await fetch(`${serverUrl}/v1/operator/tasks`, {
       headers: { 'Authorization': `Bearer ${operatorKey}` }
     });
     
@@ -124,7 +124,7 @@ async function loadTasks() {
 // Claim a task
 async function claimTask(taskId, url) {
   try {
-    const response = await fetch(`${serverUrl}/operator/tasks/${taskId}/claim`, {
+    const response = await fetch(`${serverUrl}/v1/operator/tasks/${taskId}/claim`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${operatorKey}` }
     });
@@ -165,7 +165,7 @@ window.claimTask = claimTask;
 // Load earnings
 async function loadEarnings() {
   try {
-    const response = await fetch(`${serverUrl}/operator/earnings`, {
+    const response = await fetch(`${serverUrl}/v1/operator/earnings`, {
       headers: { 'Authorization': `Bearer ${operatorKey}` }
     });
     

@@ -21,7 +21,7 @@ async function updateBadge() {
   const serverUrl = stored.serverUrl || 'http://localhost:3456';
   
   try {
-    const response = await fetch(`${serverUrl}/operator/tasks`, {
+    const response = await fetch(`${serverUrl}/v1/operator/tasks`, {
       headers: { 'Authorization': `Bearer ${stored.operatorKey}` }
     });
     
@@ -52,7 +52,7 @@ async function handleTaskCompletion(taskId, screenshot) {
   const serverUrl = stored.serverUrl || 'http://localhost:3456';
   
   try {
-    const response = await fetch(`${serverUrl}/operator/tasks/${taskId}/complete`, {
+    const response = await fetch(`${serverUrl}/v1/operator/tasks/${taskId}/complete`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${stored.operatorKey}`,
@@ -87,3 +87,13 @@ async function handleTaskCompletion(taskId, screenshot) {
 
 // Initial badge update
 updateBadge();
+
+// Handle screenshot requests from content scripts
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === 'captureScreenshot') {
+    chrome.tabs.captureVisibleTab(null, { format: 'jpeg', quality: 70 }, (dataUrl) => {
+      sendResponse({ screenshot: dataUrl || null });
+    });
+    return true; // async response
+  }
+});

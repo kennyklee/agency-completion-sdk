@@ -139,12 +139,15 @@ async function failTask() {
   showToast('Task returned to queue.');
 }
 
-// Capture visible tab screenshot
+// Capture visible tab screenshot via background script
 async function captureScreenshot() {
-  // Note: Content scripts can't directly capture screenshots
-  // This would need to go through the background script
-  // For MVP, we'll skip the screenshot
-  return null;
+  try {
+    const response = await chrome.runtime.sendMessage({ action: 'captureScreenshot' });
+    return response?.screenshot || null;
+  } catch (e) {
+    console.warn('Screenshot capture failed:', e);
+    return null;
+  }
 }
 
 // Remove widget

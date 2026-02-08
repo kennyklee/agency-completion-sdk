@@ -7,7 +7,8 @@
     "activeTab",
     "storage",
     "alarms",
-    "notifications"
+    "notifications",
+    "tabs"
   ],
   "host_permissions": [
     "https://api.agencycompletion.com/*",
@@ -26,9 +27,15 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"],
-      "css": ["widget.css"]
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "widget.css"
+      ]
     }
   ],
   "icons": {
