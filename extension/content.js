@@ -120,7 +120,7 @@ async function failTask() {
   const serverUrl = stored.serverUrl || 'http://localhost:3456';
   
   try {
-    await fetch(`${serverUrl}/operator/tasks/${activeTask.id}/fail`, {
+    await fetch(`${serverUrl}/v1/operator/tasks/${activeTask.id}/fail`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${stored.operatorKey}`,
